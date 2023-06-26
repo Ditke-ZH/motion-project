@@ -7,6 +7,7 @@ User = get_user_model()
 
 
 class Post(models.Model):
+    objects = None
     creating_user = models.ForeignKey(
         verbose_name='user',
         to=settings.AUTH_USER_MODEL,
