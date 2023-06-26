@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView
 
-from backend.comment.models import Comment
-from backend.comment.serializers import CommentSerializer
+from .models import Comment
+from .serializers import CommentSerializer
 
 
 # Create your views here.
 
 class ListCreateCommentAPIView(ListCreateAPIView):
-    model = Comment
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
