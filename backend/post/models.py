@@ -17,7 +17,7 @@ class Post(models.Model):
     title = models.TextField(verbose_name='title')
     content = models.TextField(verbose_name='content')
     created_date = models.DateTimeField(verbose_name='created', auto_now_add=True)
-    external_link = models.TextField(verbose_name='external_link')
+    external_link = models.TextField(verbose_name='external_link', blank=True)
 
     liked_by_users = models.ManyToManyField(
         to=User,
@@ -25,30 +25,12 @@ class Post(models.Model):
         blank=True
     )
 
-    like_count = models.IntegerField(
-        default=0,
-        blank=True
-    )
-
-    linked_posts = models.ManyToManyField(
-        'self',
+    linked_posts = models.ForeignKey(
+        to='Post',
         blank=True,
-        symmetrical=False
-    )
-
-    comments = models.ForeignKey(
-        to=Comment,
+        symmetrical=False,
         on_delete=models.CASCADE,
-        related_name="post_comments",
-        null=True,
-        blank=True
-    )
-
-    images = models.ForeignKey(
-        to=Post_Image,
-        on_delete=models.CASCADE,
-        related_name='post_images',
-        blank=True
+        related_name="linked_by_posts"
     )
 
     def __str__(self):
