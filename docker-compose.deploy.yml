@@ -2,7 +2,7 @@ version: '3'
 
 services:
   backend:
-    image: motion_backend:master
+    image: registry.gitlab.propulsion-home.ch/full-stack/batch-24-may-2023/motion-backend/motion-3:master
     env_file:
       - ./envs/prod.env
     volumes:
