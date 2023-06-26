@@ -2,11 +2,15 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 User = get_user_model()
+
+
 def user_directory_path_avatar(instance, filename):
     return f'avatar/{instance.id}/{filename}'
 
+
 def user_directory_path_banner(instance, filename):
     return f'banner/{instance.id}/{filename}'
+
 
 class UserProfile():
     user = models.OneToOneField(to='User', related_name='user_profile', blank=True, on_delete=models.CASCADE)
