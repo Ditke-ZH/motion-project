@@ -29,7 +29,6 @@ class Post(models.Model):
     linked_posts = models.ForeignKey(
         to='Post',
         blank=True,
-        symmetrical=False,
         on_delete=models.CASCADE,
         related_name="linked_by_posts"
     )
