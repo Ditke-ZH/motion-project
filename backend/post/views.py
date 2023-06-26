@@ -83,6 +83,3 @@ class UserLikedPostListView(ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return user.liked_posts.all().order_by('-created_date')
-
-
-
