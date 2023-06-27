@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView
 
 from .models import Comment
@@ -10,6 +9,7 @@ from .serializers import CommentSerializer
 class ListCreateCommentAPIView(ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
 
 """
     def get_queryset(self):
