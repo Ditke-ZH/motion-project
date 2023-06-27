@@ -18,6 +18,7 @@ class FollowsUsersSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'follower', 'following']
 
+
 class LikedThingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = LikedThing
