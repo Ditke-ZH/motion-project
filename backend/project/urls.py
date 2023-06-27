@@ -22,7 +22,7 @@ from rest_framework_simplejwt import views as jwt_views
 urlpatterns = [
 
     # Admin page
-    path('admin/', admin.site.urls),
+    path('backend/admin/', admin.site.urls),
 
     # registration & authentication
     path('backend/api/auth/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -37,5 +37,5 @@ urlpatterns = [
     path('backend/api/social/posts/', include('post.urls')),
     # path('backend/api/social/comments/', include('')),
     # path('backend/api/social/followers/', include('')),
-    # path('backend/api/social/friends/', include('')),
+    path('backend/api/social/friends/', include('friendrequest.urls')),
 ]

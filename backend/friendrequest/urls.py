@@ -1,17 +1,14 @@
 from django.urls import path
-from backend.post.views import PostListCreateView, PostSearchView, PostRetrieveUpdateDeleteView, UserPostListView, \
-    FollowingPostListView, FriendsPostListView, PostToggleLikeView, UserLikedPostListView
 
+from friendrequest.views import FriendsListView, FriendrequestPostView, FriendrequestGetPatchDeleteView, \
+    FriendrequestListView
 
 urlpatterns = [
 
-    path('', PostListCreateView.as_view(), name='post-list-create'),
-    path('?search=<str:search_string>', PostSearchView.as_view(), name='post-search'),
-    path('<int:post_id>/', PostRetrieveUpdateDeleteView.as_view(), name='post-retrieve-update-delete'),
-    path('user/<int:user_id>/', UserPostListView.as_view(), name='user-post-list'),
-    path('following/', FollowingPostListView.as_view(), name='following-post-list'),
-    path('friends/', FriendsPostListView.as_view(), name='friends-post-list'),
-    path('toggle-like/<int:post_id>/', PostToggleLikeView.as_view(), name='post-toggle-like'),
-    path('likes/', UserLikedPostListView.as_view(), name='user-liked-post-list'),
+    path('', FriendsListView.as_view(), name='friends-list'),
+    path('request/<int:user_id>/', FriendrequestPostView.as_view(), name='friendrequest-post'),
+    path('requests/', FriendrequestListView.as_view(), name='friendrequest-retrieve-update-delete'),
+    path('requests/<int:id>/', FriendrequestGetPatchDeleteView.as_view(),
+         name='friendrequest-retrieve-update-delete'),
 
 ]
