@@ -8,6 +8,7 @@ def post_directory_path(instance, filename):
 
 
 class PostImage(models.Model):
+    objects = None
     post = models.ForeignKey(
         to=Post,
         on_delete=models.CASCADE,
@@ -16,5 +17,5 @@ class PostImage(models.Model):
     image = models.ImageField(upload_to=post_directory_path, null=True, blank=True)
 
     class Meta:
-        verbose_name = 'Post Image'
-        verbose_name_plural = 'Post Images'
+        verbose_name = 'PostImage'
+        verbose_name_plural = 'PostImages'
