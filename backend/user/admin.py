@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
+User = get_user_model()
 
-@admin.register(User)
-class UserAdmin(UserAdmin):
+
+class MyUserAdmin(UserAdmin):
     readonly_fields = ('date_joined',)
 
     add_fieldsets = (
@@ -24,3 +25,6 @@ class UserAdmin(UserAdmin):
 
     list_display = ('email', 'first_name', 'last_name', 'is_staff')
     ordering = ('email',)
+
+
+admin.site.register(User, MyUserAdmin)
