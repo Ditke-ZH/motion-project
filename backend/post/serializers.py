@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Post
+from backend.post.models import Post
 from backend.user.serializers import UserSerializer
 
 
@@ -21,8 +21,9 @@ class PostSerializer(serializers.ModelSerializer):
             return True
         return False
 
-    def get_amount_of_likes(self, post):
-        return post.liked_by_users.count()
+    @staticmethod
+    def get_amount_of_likes(post):
+        return post.liked_by_users.all().count()
 
     class Meta:
         model = Post
