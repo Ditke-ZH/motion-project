@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
+from backend.liked_thing.models import LikedThing
 from backend.user_profile.models import UserProfile
 
 User = get_user_model()
@@ -19,7 +20,7 @@ class FollowsUsersSerializer(serializers.ModelSerializer):
 
 class LikedThingsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = LikedThings
+        model = LikedThing
         fields = '__all__'
 
 class UserProfileSerializer(serializers.ModelSerializer):
