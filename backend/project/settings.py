@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # apps
     'user',
+    'user_profile',
     'user_registration',
     'post_image',
     'post',
