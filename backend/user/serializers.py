@@ -24,8 +24,10 @@ class LikedThingsSerializer(serializers.ModelSerializer):
         model = LikedThing
         fields = '__all__'
 
+
 class UserProfileSerializer(serializers.ModelSerializer):
     liked_things = LikedThingsSerializer(many=True)
+
     class Meta:
         model = UserProfile
         fields = '__all__'
