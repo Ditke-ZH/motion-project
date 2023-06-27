@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import ViewAllFollowing, ViewAllUsers, ToggleFollowing, ViewAllFollowers, ViewOneUser
+from user.views import ViewAllFollowing, ViewAllUsers, ToggleFollowing, ViewAllFollowers, ViewOneUser
 
 urlpatterns = [
     path('', ViewAllUsers.as_view()),
@@ -10,4 +10,5 @@ urlpatterns = [
 
     path('following/', ViewAllFollowing.as_view()),
     path('followers/', ViewAllFollowers.as_view()),
+    path('me/', ViewOneUser.as_view())
 ]

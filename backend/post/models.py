@@ -1,5 +1,4 @@
 from django.db import models
-from django.conf import settings
 from django.contrib.auth import get_user_model
 
 # Create your models here.
@@ -10,7 +9,7 @@ class Post(models.Model):
     objects = None
     creating_user = models.ForeignKey(
         verbose_name='user',
-        to=settings.AUTH_USER_MODEL,
+        to=User,
         on_delete=models.CASCADE,
         related_name='posts',
     )

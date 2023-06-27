@@ -2,8 +2,9 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.db.models import Q
-from .models import Post
-from .serializers import PostSerializer
+
+from post.models import Post
+from post.serializers import PostSerializer
 
 
 class PostListCreateView(ListCreateAPIView):
@@ -21,7 +22,8 @@ class PostSearchView(ListAPIView):
 
     def get_queryset(self):
         search_string = self.request.query_params.get('search', '')
-        return Post.objects.filter(Q(title__icontains=search_string) | Q(content__icontains=search_string)).order_by('-created_date')
+        return Post.objects.filter(Q(title__icontains=search_string)
+                                   | Q(content__icontains=search_string)).order_by('-created_date')
 
 
 class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
