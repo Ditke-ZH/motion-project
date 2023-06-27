@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from drf_yasg.openapi import Response
-from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
 from backend.user.serializers import UserSerializer
 
 User = get_user_model()
@@ -12,6 +12,12 @@ class ViewAllUsers(ListAPIView):
 
 
 class ViewOneUser(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_url_kwarg = 'id'
+
+
+class RetrieveUpdateDestroyLoggedInUser(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_url_kwarg = 'id'
