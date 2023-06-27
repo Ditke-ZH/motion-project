@@ -4,5 +4,5 @@ from django.urls import path, include
 from .views import ListCreateCommentAPIView
 
 urlpatterns = [
-    path('', ListCreateCommentAPIView.as_view()),
+    path('<int:post_id>', ListCreateCommentAPIView.as_view()),
 ]
