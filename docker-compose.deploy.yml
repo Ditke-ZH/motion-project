@@ -6,8 +6,8 @@ services:
     env_file:
       - ./envs/prod.env
     volumes:
-      - static-files:/static-files
-      - media-files:/media-files
+      - static_files:/static-files
+      - media_files:/media-files
       - build:/frontend/dist
     command: 'sh /scripts/prod.sh'
     depends_on:
@@ -27,13 +27,13 @@ services:
       - "443:443"
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - static-files:/static-files
-      - media-files:/media-files
+      - static_files:/static-files
+      - media_files:/media-files
       - /etc/letsencrypt:/etc/letsencrypt
       - build:/build
 
 volumes:
   postgres_db:
-  media-files:
-  static-files:
+  media_files:
+  static_files:
   build:

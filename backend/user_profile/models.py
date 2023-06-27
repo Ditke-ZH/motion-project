@@ -12,7 +12,7 @@ def user_directory_path_banner(instance, filename):
     return f'banner/{instance.id}/{filename}'
 
 
-class UserProfile():
+class UserProfile(models.Model):
     user = models.OneToOneField(to='User', related_name='user_profile', blank=True, on_delete=models.CASCADE)
     location = models.CharField(max_length=250, blank=True)
     avatar = models.ImageField(upload_to=user_directory_path_avatar, blank=True, null=True)
