@@ -37,5 +37,5 @@ urlpatterns = [
     path('backend/api/social/posts/', include('post.urls')),
     # path('backend/api/social/comments/', include('')),
     # path('backend/api/social/followers/', include('')),
-    # path('backend/api/social/friends/', include('')),
+    path('backend/api/social/friends/', include('friendrequest.urls')),
 ]
