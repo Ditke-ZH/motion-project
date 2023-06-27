@@ -33,7 +33,7 @@ urlpatterns = [
     # path('backend/api/password-reset/', include('')),
 
     # API urls
-    # path('backend/api/users/', include('')),
+    path('backend/api/users/', include('user.urls')),
     path('backend/api/social/posts/', include('post.urls')),
     # path('backend/api/social/comments/', include('')),
     # path('backend/api/social/followers/', include('')),
