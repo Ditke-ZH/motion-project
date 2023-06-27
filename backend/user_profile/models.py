@@ -17,5 +17,5 @@ class UserProfile(models.Model):
     location = models.CharField(max_length=250, blank=True)
     avatar = models.ImageField(upload_to=user_directory_path_avatar, blank=True, null=True)
     banner = models.ImageField(upload_to=user_directory_path_banner, blank=True, null=True)
-    phone_no = models.CharField(max_length=30, null=True, blank=True)
-    about = models.TextField(max_length=250, null=True, blank=True)
+    phone_no = models.CharField(max_length=30, blank=True)
+    about = models.TextField(max_length=250, blank=True)

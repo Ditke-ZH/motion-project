@@ -10,4 +10,5 @@ urlpatterns = [
 
     path('following/', ViewAllFollowing.as_view()),
     path('followers/', ViewAllFollowers.as_view()),
+    path('me/', ViewOneUser.as_view())
 ]
