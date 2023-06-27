@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from drf_yasg.openapi import Response
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView
-from backend.user.serializers import UserSerializer
+from user.serializers import UserSerializer
 
 User = get_user_model()
 
