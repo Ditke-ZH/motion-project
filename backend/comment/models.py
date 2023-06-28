@@ -13,4 +13,4 @@ class Comment(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Post id: {self.post} {self.text[:10]}... by user: {self.commenting_user}"
+        return f"{self.text[:10]}... by user: {self.commenting_user}"
