@@ -10,4 +10,4 @@ class User(AbstractUser):
     follows_users = models.ManyToManyField(to='User', related_name='is_followed_by_users', blank=True)
 
     def __str__(self):
-        return self.email
+        return self.username
