@@ -37,10 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
     follows_users = FollowsUsersSerializer(many=True, read_only=True)
     is_followed_by_users = IsFollowedByUsersSerializer(many=True, read_only=True)
     user_profile = UserProfileSerializer()
+
     class Meta:
         model = User
         fields = ['username', 'follows_users', 'is_followed_by_users', 'email', 'user_profile']
-
-
-
-

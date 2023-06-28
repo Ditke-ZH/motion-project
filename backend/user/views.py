@@ -41,8 +41,6 @@ class RetrieveUpdateDestroyLoggedInUser(RetrieveUpdateDestroyAPIView):
         serializer.save()
 
 
-
-
 class ToggleFollowing(UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
