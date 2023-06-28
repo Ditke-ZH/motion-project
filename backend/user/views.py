@@ -1,7 +1,10 @@
 from django.contrib.auth import get_user_model
-from drf_yasg.openapi import Response
+from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
-from user.serializers import UserSerializer
+
+from liked_thing.models import LikedThing
+from user.serializers import UserSerializer, UserProfileSerializer, LikedThingsSerializer
+from user_profile.models import UserProfile
 
 User = get_user_model()
 
@@ -18,9 +21,24 @@ class ViewOneUser(RetrieveAPIView):
 
 
 class RetrieveUpdateDestroyLoggedInUser(RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
-    lookup_url_kwarg = 'id'
+
+    def get_object(self):
+        return self.request.user
+
+    def perform_update(self, serializer):
+        serializer.save()
+        user_profile = UserProfile.objects.filter(user=self.request.user).first()
+        instance = user_profile
+        serializer = UserProfileSerializer(instance, self.request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        liked_things = LikedThing.objects.filter(user=self.request.user).first()
+        instance = liked_things
+        serializer = LikedThingsSerializer(instance, self.request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
 
 class ToggleFollowing(UpdateAPIView):
