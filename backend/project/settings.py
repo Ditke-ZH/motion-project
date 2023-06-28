@@ -138,7 +138,7 @@ USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 MEDIA_URL = 'media-files/'
-MEDIA_ROOT = 'media-files/' if DEBUG else '/media-files/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media-files')   # absolute path to the folder containing the files
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
