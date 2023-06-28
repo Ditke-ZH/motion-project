@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
 
@@ -10,8 +11,17 @@ User = get_user_model()
 
 
 class ViewAllUsers(ListAPIView):
-    queryset = User.objects.all()
+    # queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def get_queryset(self):
+        queryset = User.objects.all()
+        search = self.request.query_params.get('search', None)
+        if search is not None:
+            queryset = queryset.filter(Q(username__icontains=search) |
+                                       Q(first_name__icontains=search) |
+                                       Q(last_name__icontains=search))
+        return queryset
 
 
 class ViewOneUser(RetrieveAPIView):
