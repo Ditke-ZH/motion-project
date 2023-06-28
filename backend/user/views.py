@@ -44,11 +44,20 @@ class RetrieveUpdateDestroyLoggedInUser(RetrieveUpdateDestroyAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        liked_things = LikedThing.objects.filter(user_profile__user=self.request.user)
-        for instance in liked_things:
-            serializer = LikedThingsSerializer(instance, self.request.data, partial=True)
-            serializer.is_valid(raise_exception=True)
-            serializer.save(user_profile=user_profile)
+        for element in self.request.data['text']:
+            liked_things = LikedThing.objects.filter(user_profile__user=self.request.user).values_list('text', flat=True)
+            element_transform = {'text': element}
+            if element not in liked_things:
+                instance = LikedThing.objects.all()
+                instance.create(text=element, user_profile=user_profile)
+            elif element in liked_things:
+                instance = LikedThing.objects.filter(text=element, user_profile=user_profile)
+                instance.delete()
+
+        # for instance in liked_things:
+        #     serializer = LikedThingsSerializer(instance, self.request.data, partial=True)
+        #     serializer.is_valid(raise_exception=True)
+        #     serializer.save(user_profile=user_profile)
 
 
 class ToggleFollowing(UpdateAPIView):
