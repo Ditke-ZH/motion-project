@@ -30,7 +30,7 @@ class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'id'
+    lookup_field = 'post_id'
 
 
 class UserPostListView(ListAPIView):
@@ -66,6 +66,7 @@ class PostToggleLikeView(GenericAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    lookup_field = 'post_id'
 
     def post(self, request, post_id):
         post = self.get_object()
