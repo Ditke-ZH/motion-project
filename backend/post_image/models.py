@@ -1,3 +1,4 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from post.models import Post
 
@@ -19,7 +20,7 @@ class PostImage(models.Model):
         upload_to=post_directory_path,
         null=True,
         blank=True,
-        allowed_extensions=['.jpg', '.jpeg', '.png'],
+        validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])],
         max_length=None,  # Designates the maximum length for the file name.
     )
 
