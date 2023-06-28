@@ -20,9 +20,10 @@ class FollowsUsersSerializer(serializers.ModelSerializer):
 
 
 class LikedThingsSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = LikedThing
-        fields = '__all__'
+        fields = ['text']
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
