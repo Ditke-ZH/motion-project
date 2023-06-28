@@ -26,23 +26,33 @@ class RegisterView(CreateAPIView):
     def create(self, request, *args, **kwargs):
         code = code_generator()
         email = request.data['email']
+        email_header = ''
+        email_body = ''
 
         # create new user
         data = request.data
-        data['username'] = request.data['email']
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        user = User.objects.last()
+        if request.stream.path == '/backend/api/auth/registration/':
+            data['username'] = request.data['email']
+            serializer = self.get_serializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+
+            email_header = 'Welcome to Motion-3'
+            email_body = f'Welcome to Motion!\n\n Your code is: \n-->  {code}  <--'
+        else:
+            email_header = 'Motion-3 Password reset'
+            email_body = f'Hello again!\n\n Your code is: \n-->  {code}  <--'
+
+        user = User.objects.get(email=email)
 
         # create user_registration
         reg_instance = UserRegistration.objects.all()
-        reg_instance.create(code=code, user_id=user.id)
+        reg_instance.update_or_create(user_id=user.id, defaults={'code': code})
 
         # send code via mail
         send_mail(
-            'Welcome to Motion-3',
-            f'Welcome to Motion!\n\n Your code is: \n-->  {code}  <--',
+            email_header,
+            email_body,
             'best.motion.ever.group3@gmail.com',
             [email],
             fail_silently=False,
@@ -56,13 +66,17 @@ class RegisterValidationView(UpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         user_instance = get_object_or_404(User, email=request.data['email'])
-        if request.data['code'] == user_instance.user_registration.code \
+        code_instance = get_object_or_404(UserRegistration, user=user_instance)
+        if request.data['code'] == code_instance.code \
                 and request.data['password'] == request.data['password_repeat']:
             data = request.data
             data['password'] = make_password(data['password'])
             user_serializer = self.get_serializer(user_instance, data=data)
             user_serializer.is_valid(raise_exception=True)
             user_serializer.save()
-            return Response(user_serializer.data)
+            res = Response(user_serializer.data)
         else:
-            return Response(status=status.HTTP_418_IM_A_TEAPOT)
+            res = Response(status=status.HTTP_418_IM_A_TEAPOT)
+
+        code_instance.delete()
+        return res
