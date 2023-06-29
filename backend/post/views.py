@@ -1,11 +1,14 @@
+from django.contrib.auth import get_user_model
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
 from .permissions import IsOwnerIsAdminOrReadOnly
 from django.db.models import Q
-
 from post.models import Post
 from post.serializers import PostSerializer
+
+User = get_user_model()
 
 
 class PostListCreateView(ListCreateAPIView):
@@ -59,8 +62,12 @@ class FriendsPostListView(ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        user = self.request.user
-        friends_ids = user.friends.values_list('id', flat=True)
+        current_user = self.request.user
+
+        friends_ids = User.objects.filter(
+            Q(friendrequests_sent__state='A', friendrequests_sent__receiving_user=current_user)
+            | Q(friendrequests_received__state='A', friendrequests_received__sending_user=current_user))
+
         return Post.objects.filter(creating_user_id__in=friends_ids).order_by('-created_date')
 
 
