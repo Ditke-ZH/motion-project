@@ -2,6 +2,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
     UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .permissions import IsOwnerIsAdminOrReadOnly
 from django.db.models import Q
 
 from post.models import Post
@@ -11,7 +12,6 @@ from post.serializers import PostSerializer
 class PostListCreateView(ListCreateAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-
 
     def get_queryset(self):
         queryset = Post.objects.all().order_by('-created_date')
@@ -32,7 +32,7 @@ class PostSearchView(ListAPIView):
 class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerIsAdminOrReadOnly]
     lookup_url_kwarg = 'post_id'
 
 
@@ -51,7 +51,7 @@ class FollowingPostListView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        following_ids = user.following.values_list('id', flat=True)
+        following_ids = user.follows_users.values_list('id', flat=True)
         return Post.objects.filter(creating_user_id__in=following_ids).order_by('-created_date')
 
 
@@ -71,8 +71,8 @@ class PostToggleLikeView(UpdateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_url_kwarg = 'post_id'
 
-    def post(self, request, *args, **kwargs):        # stefan: removed ', post_id' from parameters, because pycharm was complaining
-        post = self.get_object()                     # Mahesh: to stefan the post_id sent as kwargs, so it will throw type error.
+    def post(self, request, *args, **kwargs):
+        post = self.get_object()
         user = request.user
         if user in post.liked_by_users.all():
             post.liked_by_users.remove(user)
