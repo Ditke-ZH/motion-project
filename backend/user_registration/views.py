@@ -6,8 +6,8 @@ from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
-from django.core.mail import send_mail
 
+from email_scheduler.models import EmailScheduler
 from user_registration.models import UserRegistration
 from user_registration.serializers import UserRegistrationSerializer, UserRegistrationValidationSerializer
 
@@ -49,14 +49,10 @@ class RegisterView(CreateAPIView):
         reg_instance = UserRegistration.objects.all()
         reg_instance.update_or_create(user_id=user.id, defaults={'code': code})
 
-        # send code via mail
-        send_mail(
-            email_header,
-            email_body,
-            'best.motion.ever.group3@gmail.com',
-            [email],
-            fail_silently=False,
-        )
+        # prepare mail with code on database
+        mail_instance = EmailScheduler.objects.all()
+        mail_instance.create(subject=email_header, message=email_body, recipient_list=email)
+
         return Response(status=status.HTTP_201_CREATED)
 
 
