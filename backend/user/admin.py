@@ -6,7 +6,7 @@ User = get_user_model()
 
 
 class MyUserAdmin(UserAdmin):
-    readonly_fields = ('date_joined',)
+    readonly_fields = ('date_joined', 'last_login')
 
     add_fieldsets = (
         (None, {
