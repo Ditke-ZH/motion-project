@@ -10,12 +10,6 @@ from email_scheduler.models import EmailScheduler
 class Command(BaseCommand):
     help = 'This command will send emails that are due. Usually executed every 10 seconds by cron!'
 
-    '''
-    line added in crontab: (crontab -e)
-    
-    * * * * * for i in {1..6}; do /opt/conda/envs/group3_motion/bin/python /opt/project/backend/manage.py sendmail & sleep 10; done
-    '''
-
     def handle(self, *args, **options):
         while True:
             time.sleep(5)
