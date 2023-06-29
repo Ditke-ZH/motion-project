@@ -28,8 +28,8 @@ export default function Avatar({ user, size }) {
   } else if (user) {
     return (
       <AvatarWithOutImage size={size}>
-        {user?.first_name[0].toUpperCase()}
-        {user?.last_name[0].toUpperCase()}
+        {/*{user?.first_name[0].toUpperCase()}*/}
+        {/*{user?.last_name[0].toUpperCase()}*/}
       </AvatarWithOutImage>
     );
   } else {
