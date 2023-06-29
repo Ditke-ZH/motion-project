@@ -8,9 +8,15 @@ from post.serializers import PostSerializer
 
 
 class PostListCreateView(ListCreateAPIView):
-    queryset = Post.objects.all().order_by('-created_date')
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        queryset = Post.objects.all().order_by('-created_date')
+        search_string = self.request.query_params.get('search', )
+        if search_string is not None:
+            queryset = queryset.filter(Q(title__icontains=search_string) | Q(content__icontains=search_string))
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -19,11 +25,6 @@ class PostListCreateView(ListCreateAPIView):
 class PostSearchView(ListAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def get_queryset(self):
-        search_string = self.request.query_params.get('search', '')
-        return Post.objects.filter(Q(title__icontains=search_string)
-                                   | Q(content__icontains=search_string)).order_by('-created_date')
 
 
 class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
@@ -68,7 +69,7 @@ class PostToggleLikeView(GenericAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_field = 'post_id'
 
-    def post(self, request, post_id):
+    def post(self, request):        # stefan: removed ', post_id' from parameters, because pycharm was complaining
         post = self.get_object()
         user = request.user
         if post in user.liked_posts.all():
