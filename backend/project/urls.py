@@ -51,7 +51,7 @@ urlpatterns = [
     path('backend/api/users/', include('user.urls')),
     path('backend/api/social/posts/', include('post.urls')),
     path('backend/api/social/comments/', include('comment.urls')),
-    path('backend/api/social/followers/', include('user.urls')),
+    path('backend/api/social/followers/', include('user.urls_follower')),
     path('backend/api/social/friends/', include('friendrequest.urls')),
 
     # Swagger documentation urls
