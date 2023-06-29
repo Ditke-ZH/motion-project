@@ -19,3 +19,6 @@ class UserProfile(models.Model):
     banner = models.ImageField(upload_to=user_directory_path_banner, blank=True, null=True)
     phone_no = models.CharField(max_length=30, blank=True)
     about = models.TextField(max_length=250, blank=True)
+
+    def __str__(self):
+        return f"{self.user.email}"

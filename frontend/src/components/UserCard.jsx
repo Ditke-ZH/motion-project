@@ -119,6 +119,7 @@ export default function UserCard({ user }) {
     location,
     about_me,
     things_user_likes,
+    user_profile,
     id,
     logged_in_user_is_following,
     logged_in_user_sent_fr,
@@ -172,6 +173,8 @@ export default function UserCard({ user }) {
     }
   };
 
+  console.log(user_profile)
+
   return (
     <>
       <UserCardContainer>
@@ -197,18 +200,18 @@ export default function UserCard({ user }) {
           </button>
         </SocialActionsContainer>
         <DescriptionContainer>
-          {about_me === "" ? defaultDescription : about_me}
+          {user_profile.about === "" ? defaultDescription : user_profile.about}
         </DescriptionContainer>
         <LabelContainer>
-          {things_user_likes.length > 0
-            ? things_user_likes.map((label) => {
-                return <span key={label}> {label}</span>;
-              })
-            : ["Swimming", "Food", "Cooking", "Travel", "Reading"].map(
-                (labelFake) => {
-                  return <span key={labelFake}> {labelFake}</span>;
-                }
-              )}
+          {/*{things_user_likes.length > 0*/}
+          {/*  ? things_user_likes.map((label) => {*/}
+          {/*      return <span key={label}> {label}</span>;*/}
+          {/*    })*/}
+          {/*  : ["Swimming", "Food", "Cooking", "Travel", "Reading"].map(*/}
+          {/*      (labelFake) => {*/}
+          {/*        return <span key={labelFake}> {labelFake}</span>;*/}
+          {/*      }*/}
+          {/*    )}*/}
         </LabelContainer>
       </UserCardContainer>
     </>
