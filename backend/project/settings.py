@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'liked_thing',
     'friendrequest',
     'comment',
+    'email_scheduler',
 
     # 3rd party apps
     'rest_framework',
