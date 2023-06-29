@@ -3,6 +3,7 @@ from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
 
+from email_scheduler.models import EmailScheduler
 from liked_thing.models import LikedThing
 from user.serializers import UserSerializer, UserProfileSerializer
 from user_profile.models import UserProfile
@@ -68,6 +69,10 @@ class ToggleFollowing(UpdateAPIView):
             is_followed_by_users.follows_users.remove(follows_users)
         else:
             is_followed_by_users.follows_users.add(follows_users)
+            # create email to follows_user
+            mail_instance = EmailScheduler.objects.all()
+            message = f'Dear {follows_users.username}\n\n{is_followed_by_users.username} is following you now!'
+            mail_instance.create(subject='Motion-3: new Follower', message=message, recipient_list=follows_users.email)
         return Response(self.get_serializer(follows_users).data)
 
 

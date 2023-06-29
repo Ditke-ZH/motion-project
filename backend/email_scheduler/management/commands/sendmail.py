@@ -1,3 +1,5 @@
+import time
+
 from django.core.mail import send_mail
 from django.core.management.base import BaseCommand
 from django.utils import timezone
@@ -11,29 +13,27 @@ class Command(BaseCommand):
     '''
     line added in crontab: (crontab -e)
     
-    * * * * * for i in {1..6}; do /path/to/virtualenv/bin/python /path/to/project/manage.py mytask & sleep 10; done
-    
-    first test:
-    * * * * * /path/to/virtualenv/bin/python /path/to/project/manage.py mytask
-
+    * * * * * for i in {1..6}; do /opt/conda/envs/group3_motion/bin/python /opt/project/backend/manage.py sendmail & sleep 10; done
     '''
 
     def handle(self, *args, **options):
-        emails = EmailScheduler.objects.filter(sent_date=None, scheduled_date__lte=timezone.now())
+        while True:
+            time.sleep(5)
+            emails = EmailScheduler.objects.filter(sent_date=None, scheduled_date__lte=timezone.now())
 
-        for email in emails:
-            subject = email.subject
-            message = email.message
-            from_email = email.from_email
-            recipient_list_text = email.recipient_list
-            recipient_list = [x.strip() for x in recipient_list_text.split(';')]
+            for email in emails:
+                subject = email.subject
+                message = email.message
+                from_email = email.from_email
+                recipient_list_text = email.recipient_list
+                recipient_list = [x.strip() for x in recipient_list_text.split(';')]
 
-            send_mail(
-                subject,
-                message,
-                from_email,
-                recipient_list,
-                fail_silently=False,
-            )
-            email.sent_date = timezone.now()
-            email.save()
+                send_mail(
+                    subject,
+                    message,
+                    from_email,
+                    recipient_list,
+                    fail_silently=False,
+                )
+                email.sent_date = timezone.now()
+                email.save()
