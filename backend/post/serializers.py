@@ -28,7 +28,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = '__all__'
-        read_only_fields = ['liked_by_users']
+        read_only_fields = ['liked_by_users', 'creating_user']
 
     def create(self, validated_data):
         validated_data['creating_user'] = self.context['request'].user

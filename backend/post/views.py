@@ -11,6 +11,7 @@ class PostListCreateView(ListCreateAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+
     def get_queryset(self):
         queryset = Post.objects.all().order_by('-created_date')
         search_string = self.request.query_params.get('search', )
@@ -19,7 +20,7 @@ class PostListCreateView(ListCreateAPIView):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(creating_user=self.request.user)
 
 
 class PostSearchView(ListAPIView):
