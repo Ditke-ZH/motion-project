@@ -50,12 +50,6 @@ export default function Feed() {
         }
       );
 
-
-
-      console.log(res)
-
-
-
       dispatch(savePosts(res.data));
       setLoading(false);
     } catch (error) {
