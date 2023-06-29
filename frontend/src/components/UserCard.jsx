@@ -117,8 +117,6 @@ export default function UserCard({ user }) {
     first_name,
     last_name,
     location,
-    about_me,
-    things_user_likes,
     user_profile,
     id,
     logged_in_user_is_following,
@@ -173,8 +171,6 @@ export default function UserCard({ user }) {
     }
   };
 
-  console.log(user_profile)
-
   return (
     <>
       <UserCardContainer>
@@ -203,15 +199,14 @@ export default function UserCard({ user }) {
           {user_profile.about === "" ? defaultDescription : user_profile.about}
         </DescriptionContainer>
         <LabelContainer>
-          {/*{things_user_likes.length > 0*/}
-          {/*  ? things_user_likes.map((label) => {*/}
-          {/*      return <span key={label}> {label}</span>;*/}
-          {/*    })*/}
-          {/*  : ["Swimming", "Food", "Cooking", "Travel", "Reading"].map(*/}
-          {/*      (labelFake) => {*/}
-          {/*        return <span key={labelFake}> {labelFake}</span>;*/}
-          {/*      }*/}
-          {/*    )}*/}
+          {user_profile.liked_things.length > 0
+            ? user_profile.liked_things.map((label) => {
+                return <span key={label.text}> {label.text}</span>;
+              })
+            : ["Swimming", "Food", "Cooking", "Travel", "Reading"].map(
+                (labelFake) => {
+                  return <span key={labelFake}> {labelFake}</span>;
+                })}
         </LabelContainer>
       </UserCardContainer>
     </>

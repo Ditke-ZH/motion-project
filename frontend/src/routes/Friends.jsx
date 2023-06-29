@@ -53,8 +53,6 @@ export default function Friends() {
     loadUsers();
   }, []);
 
-  console.log(users)
-
   if (loading) {
     return <Loading />;
   } else {

@@ -133,16 +133,16 @@ export default function ProfileOverview({ user, publicMode }) {
     first_name,
     last_name,
     location,
-    about_me,
     email,
-    phone_number,
-    things_user_likes,
+    user_profile,
     amount_of_posts,
     amount_of_likes,
     amount_of_friends,
     amount_of_followers,
     amount_of_following,
   } = user;
+
+  console.log(user_profile.about)
 
   const navigate = useNavigate();
 
@@ -187,7 +187,7 @@ export default function ProfileOverview({ user, publicMode }) {
             <AboutEmailPhoneDiv>
               <AboutDiv>
                 <span>About</span>
-                {about_me}
+                {user_profile.about}
               </AboutDiv>
               <EmailPhoneDiv>
                 <p>
@@ -196,7 +196,7 @@ export default function ProfileOverview({ user, publicMode }) {
                 </p>
                 <p>
                   <span>Phone Number</span>
-                  {phone_number}
+                  {user_profile.phone_no}
                 </p>
               </EmailPhoneDiv>
             </AboutEmailPhoneDiv>
@@ -204,8 +204,8 @@ export default function ProfileOverview({ user, publicMode }) {
               <span>Things I Like</span>
               <ul>
                 {/* <li>{things_user_likes}</li> */}
-                {things_user_likes.map((likes) => {
-                  return <GrayPill key={likes}>{likes}</GrayPill>;
+                {user_profile.liked_things.map((likes) => {
+                  return <GrayPill key={likes.text}>{likes.text}</GrayPill>;
                 })}
               </ul>
             </ThingsILikeDiv>
