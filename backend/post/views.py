@@ -1,4 +1,5 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, GenericAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, GenericAPIView, \
+    UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.db.models import Q
@@ -32,7 +33,7 @@ class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'post_id'
+    lookup_url_kwarg = 'post_id'
 
 
 class UserPostListView(ListAPIView):
@@ -64,19 +65,19 @@ class FriendsPostListView(ListAPIView):
         return Post.objects.filter(creating_user_id__in=friends_ids).order_by('-created_date')
 
 
-class PostToggleLikeView(GenericAPIView):
+class PostToggleLikeView(UpdateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'post_id'
+    lookup_url_kwarg = 'post_id'
 
-    def post(self, request):        # stefan: removed ', post_id' from parameters, because pycharm was complaining
-        post = self.get_object()
+    def post(self, request, *args, **kwargs):        # stefan: removed ', post_id' from parameters, because pycharm was complaining
+        post = self.get_object()                     # Mahesh: to stefan the post_id sent as kwargs, so it will throw type error.
         user = request.user
-        if post in user.liked_posts.all():
-            user.liked_posts.remove(post)
+        if user in post.liked_by_users.all():
+            post.liked_by_users.remove(user)
         else:
-            user.liked_posts.add(post)
+            post.liked_by_users.add(user)
         serializer = self.get_serializer(post)
         return Response(serializer.data)
 
