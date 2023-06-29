@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
 
 from liked_thing.models import LikedThing
-from user.serializers import UserSerializer, UserProfileSerializer, LikedThingsSerializer
+from user.serializers import UserSerializer, UserProfileSerializer
 from user_profile.models import UserProfile
 
 User = get_user_model()
@@ -45,19 +45,14 @@ class RetrieveUpdateDestroyLoggedInUser(RetrieveUpdateDestroyAPIView):
         serializer.save()
 
         for element in self.request.data['text']:
-            liked_things = LikedThing.objects.filter(user_profile__user=self.request.user).values_list('text', flat=True)
-            element_transform = {'text': element}
+            liked_things = LikedThing.objects.filter(user_profile__user=self.request.user).values_list('text',
+                                                                                                       flat=True)
             if element not in liked_things:
                 instance = LikedThing.objects.all()
                 instance.create(text=element, user_profile=user_profile)
             elif element in liked_things:
                 instance = LikedThing.objects.filter(text=element, user_profile=user_profile)
                 instance.delete()
-
-        # for instance in liked_things:
-        #     serializer = LikedThingsSerializer(instance, self.request.data, partial=True)
-        #     serializer.is_valid(raise_exception=True)
-        #     serializer.save(user_profile=user_profile)
 
 
 class ToggleFollowing(UpdateAPIView):
