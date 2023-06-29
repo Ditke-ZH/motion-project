@@ -1,10 +1,14 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, GenericAPIView
+from django.contrib.auth import get_user_model
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.db.models import Q
 
+from .permissions import IsOwnerIsAdminOrReadOnly
+from django.db.models import Q
 from post.models import Post
 from post.serializers import PostSerializer
+
+User = get_user_model()
 
 
 class PostListCreateView(ListCreateAPIView):
@@ -19,7 +23,7 @@ class PostListCreateView(ListCreateAPIView):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(creating_user=self.request.user)
 
 
 class PostSearchView(ListAPIView):
@@ -30,8 +34,8 @@ class PostSearchView(ListAPIView):
 class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'post_id'
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerIsAdminOrReadOnly]
+    lookup_url_kwarg = 'post_id'
 
 
 class UserPostListView(ListAPIView):
@@ -49,7 +53,7 @@ class FollowingPostListView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        following_ids = user.following.values_list('id', flat=True)
+        following_ids = user.follows_users.values_list('id', flat=True)
         return Post.objects.filter(creating_user_id__in=following_ids).order_by('-created_date')
 
 
@@ -58,24 +62,28 @@ class FriendsPostListView(ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        user = self.request.user
-        friends_ids = user.friends.values_list('id', flat=True)
+        current_user = self.request.user
+
+        friends_ids = User.objects.filter(
+            Q(friendrequests_sent__state='A', friendrequests_sent__receiving_user=current_user)
+            | Q(friendrequests_received__state='A', friendrequests_received__sending_user=current_user))
+
         return Post.objects.filter(creating_user_id__in=friends_ids).order_by('-created_date')
 
 
-class PostToggleLikeView(GenericAPIView):
+class PostToggleLikeView(UpdateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'post_id'
+    lookup_url_kwarg = 'post_id'
 
-    def post(self, request):        # stefan: removed ', post_id' from parameters, because pycharm was complaining
+    def post(self, request, *args, **kwargs):
         post = self.get_object()
         user = request.user
-        if post in user.liked_posts.all():
-            user.liked_posts.remove(post)
+        if user in post.liked_by_users.all():
+            post.liked_by_users.remove(user)
         else:
-            user.liked_posts.add(post)
+            post.liked_by_users.add(user)
         serializer = self.get_serializer(post)
         return Response(serializer.data)
 
