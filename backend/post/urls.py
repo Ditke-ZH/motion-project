@@ -1,12 +1,11 @@
 from django.urls import path
-from post.views import PostListCreateView, PostSearchView, PostRetrieveUpdateDeleteView, UserPostListView, \
+from post.views import PostListCreateView, PostRetrieveUpdateDeleteView, UserPostListView, \
     FollowingPostListView, FriendsPostListView, PostToggleLikeView, UserLikedPostListView
 
 
 urlpatterns = [
 
     path('', PostListCreateView.as_view(), name='post-list-create'),
-    path('?search=<str:search_string>', PostSearchView.as_view(), name='post-search'),
     path('<int:post_id>/', PostRetrieveUpdateDeleteView.as_view(), name='post-retrieve-update-delete'),
     path('user/<int:user_id>/', UserPostListView.as_view(), name='user-post-list'),
     path('following/', FollowingPostListView.as_view(), name='following-post-list'),
