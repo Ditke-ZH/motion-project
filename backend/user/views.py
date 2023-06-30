@@ -13,6 +13,11 @@ User = get_user_model()
 
 
 class ViewAllUsers(ListAPIView):
+    """
+        get:
+        View all users
+
+    """
     # queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -27,12 +32,28 @@ class ViewAllUsers(ListAPIView):
 
 
 class ViewOneUser(RetrieveAPIView):
+    """
+        get:
+        Get a specific user information
+
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_url_kwarg = 'id'
 
 
 class RetrieveUpdateDestroyLoggedInUser(RetrieveUpdateDestroyAPIView):
+    """
+        get:
+        Get a specific user information
+
+        delete:
+        Delete a specific user
+
+        patch:
+        Update a specific user
+
+    """
     serializer_class = UserSerializer
 
     @swagger_auto_schema(auto_schema=None)
@@ -62,6 +83,11 @@ class RetrieveUpdateDestroyLoggedInUser(RetrieveUpdateDestroyAPIView):
 
 
 class ToggleFollowing(CreateAPIView):
+    """
+        Post:
+        Toggle the following user
+
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_url_kwarg = 'id'
@@ -82,6 +108,11 @@ class ToggleFollowing(CreateAPIView):
 
 
 class ViewAllFollowers(ListAPIView):
+    """
+        get:
+        List of following users of a logged-in user
+
+    """
     serializer_class = UserSerializer
 
     def get_queryset(self):
@@ -89,6 +120,11 @@ class ViewAllFollowers(ListAPIView):
 
 
 class ViewAllFollowing(ListAPIView):
+    """
+        get:
+        List of users followed by the logged-in user
+
+    """
     serializer_class = UserSerializer
 
     def get_queryset(self):
