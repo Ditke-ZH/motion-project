@@ -231,6 +231,7 @@ export default function EditProfile() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
+  console.log(userDetails?.user_profile)
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -287,8 +288,6 @@ export default function EditProfile() {
     // handlePatch()
   };
 
-  console.log(userDetails?.user_profile.liked_things)
-
   if (loading) {
     return <Loading />;
   } else {
@@ -338,7 +337,7 @@ export default function EditProfile() {
                     <NarrowField>
                       <StyledP>Location</StyledP>
                       <EditProfileStyledInput
-                        placeholder={userDetails?.location}
+                        placeholder={userDetails?.user_profile.location}
                         type="text"
                         value={location || ""}
                         onChange={(e) => setLocation(e.target.value)}
@@ -347,7 +346,7 @@ export default function EditProfile() {
                     <NarrowField>
                       <StyledP>About Me</StyledP>
                       <EditProfileStyledInput
-                        placeholder={userDetails?.about_me}
+                        placeholder={userDetails?.user_profile.about}
                         type="text"
                         value={aboutMe || ""}
                         onChange={(e) => setAboutMe(e.target.value)}
@@ -376,7 +375,7 @@ export default function EditProfile() {
                     <NarrowField>
                       <StyledP>Phone Number</StyledP>
                       <EditProfileStyledInput
-                        placeholder={userDetails?.phone_number}
+                        placeholder={userDetails?.user_profile.phone_no}
                         type="text"
                         value={phoneNumber || ""}
                         onChange={(e) => setPhoneNumber(e.target.value)}
