@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from email_scheduler.models import EmailScheduler
@@ -17,9 +18,10 @@ User = get_user_model()
 class FriendsListView(ListAPIView):
     """
         get:
-        List all the accepted friends of a loggedin user
-
+        List all the accepted friends of a logged-in user
     """
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         current_user = self.request.user
@@ -29,16 +31,15 @@ class FriendsListView(ListAPIView):
 
         return result
 
-    serializer_class = UserSerializer
-
 
 class FriendrequestListView(ListAPIView):
-
     """
         get:
         List all the friends requests
-
     """
+    serializer_class = FriendrequestSerializer
+    permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
         current_user = self.request.user
         result = Friendrequest.objects.filter(
@@ -46,8 +47,6 @@ class FriendrequestListView(ListAPIView):
             | Q(sending_user=current_user))
 
         return result
-
-    serializer_class = FriendrequestSerializer
 
 
 class FriendrequestPostView(CreateAPIView):
@@ -57,6 +56,7 @@ class FriendrequestPostView(CreateAPIView):
     """
     queryset = Friendrequest.objects.all()
     serializer_class = FriendrequestSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         receiver = get_object_or_404(User, id=self.kwargs['user_id'])
@@ -80,8 +80,7 @@ class FriendrequestGetPatchDeleteView(RetrieveUpdateDestroyAPIView):
     """
     queryset = Friendrequest.objects.all()
     serializer_class = FriendrequestSerializer
-    permission_classes = [CanDeleteFriendRequest]
-
+    permission_classes = [IsAuthenticated, CanDeleteFriendRequest]
     lookup_field = 'id'
 
     def update(self, request, *args, **kwargs):
@@ -106,6 +105,5 @@ class FriendrequestGetPatchDeleteView(RetrieveUpdateDestroyAPIView):
             return [CanUpdateFriendRequest()]
         return super().get_permissions()
 
-    @swagger_auto_schema(auto_schema=None)
     def put(self, request, *args, **kwargs):
         pass
