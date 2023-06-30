@@ -104,17 +104,13 @@ const EmptyDot = styled.div`
 `
 
 export default function SignUp() {
-  const [email, setEmail] = useState(
-    `alexander+${Math.floor(Math.random() * 1000)}@muedespacher.ch`
-  );
-  const [userName, setUserName] = useState(
-    `amuedespacher-${Math.floor(Math.random() * 1000)}`
-  );
+  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [code, setCode] = useState("");
-  const [password, setPassword] = useState("admin");
-  const [password2, setPassword2] = useState("admin");
-  const [firstName, setFirstName] = useState("Alexander");
-  const [lastName, setLastName] = useState("Müdespacher");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [signupStep, setSignupStep] = useState("enterEmail");
   const [validationErrors, setValidationErrors] = useState({});
   const { handleLogin, loginError } = useLogin(email, password);
@@ -143,7 +139,7 @@ export default function SignUp() {
       return;
     }
     try {
-      const res = await api.patch("auth/registration/validation/", {
+      const res = await api.post("auth/registration/validation/", {
         email: email,
         username: userName,
         code: code,

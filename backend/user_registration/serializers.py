@@ -23,5 +23,5 @@ class UserRegistrationValidationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'username', 'first_name', 'last_name']
+        fields = ['email', 'username', 'password', 'first_name', 'last_name']
         read_only_fields = ['email']
