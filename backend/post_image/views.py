@@ -1,6 +1,5 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .models import PostImage
-from .permissions import IsOwnerIsAdminOrReadOnly
 from .serializers import PostImageSerializer
 
 
@@ -28,5 +27,4 @@ class PostImageRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     """
     queryset = PostImage.objects.all()
     serializer_class = PostImageSerializer
-    #permission_classes = [IsOwnerIsAdminOrReadOnly]
-    # need a discussion before implementing this.
+    # permission_classes = [IsOwnerIsAdminOrReadOnly]
