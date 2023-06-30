@@ -14,7 +14,6 @@ User = get_user_model()
 
 class PostListCreateView(ListCreateAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         queryset = Post.objects.all().order_by('-created_date')
@@ -29,7 +28,6 @@ class PostListCreateView(ListCreateAPIView):
 
 class PostSearchView(ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
@@ -45,7 +43,6 @@ class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
 
 class UserPostListView(ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         user_id = self.kwargs['user_id']
@@ -54,7 +51,6 @@ class UserPostListView(ListAPIView):
 
 class FollowingPostListView(ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         user = self.request.user
@@ -64,7 +60,6 @@ class FollowingPostListView(ListAPIView):
 
 class FriendsPostListView(ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         current_user = self.request.user
@@ -79,7 +74,6 @@ class FriendsPostListView(ListAPIView):
 class PostToggleLikeView(CreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_url_kwarg = 'post_id'
 
     def post(self, request, *args, **kwargs):
@@ -95,7 +89,6 @@ class PostToggleLikeView(CreateAPIView):
 
 class UserLikedPostListView(ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         user = self.request.user

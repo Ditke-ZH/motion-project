@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 from email_scheduler.models import EmailScheduler
 from friendrequest.models import Friendrequest
+from friendrequest.permissions import CanDeleteFriendRequest, CanUpdateFriendRequest
 from friendrequest.serializers import FriendrequestSerializer
 from user.serializers import UserSerializer
 
@@ -53,6 +54,8 @@ class FriendrequestPostView(CreateAPIView):
 class FriendrequestGetPatchDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Friendrequest.objects.all()
     serializer_class = FriendrequestSerializer
+    permission_classes = [CanDeleteFriendRequest]
+
     lookup_field = 'id'
 
     def update(self, request, *args, **kwargs):
@@ -70,6 +73,12 @@ class FriendrequestGetPatchDeleteView(RetrieveUpdateDestroyAPIView):
                       f'\n{instance.receiving_user.username} has accepted your friend request!'
             mail_instance.create(subject=subject, message=message, recipient_list=instance.sending_user.email)
         return Response(serializer.data)
+
+    def get_permissions(self):
+        if self.request.method == 'PATCH':
+            # Use different permission class for patch request (partial_update)
+            return [CanUpdateFriendRequest()]
+        return super().get_permissions()
 
     @swagger_auto_schema(auto_schema=None)
     def put(self, request, *args, **kwargs):
