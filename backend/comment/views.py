@@ -1,5 +1,4 @@
 from rest_framework.generics import ListCreateAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import ValidationError
 
 from post.models import Post
@@ -20,7 +19,6 @@ class ListCreateCommentAPIView(ListCreateAPIView):
     """
 
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_url_kwarg = 'post_id'
 
     def get_queryset(self):
