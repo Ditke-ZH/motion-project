@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
@@ -69,3 +70,7 @@ class FriendrequestGetPatchDeleteView(RetrieveUpdateDestroyAPIView):
                       f'\n{instance.receiving_user.username} has accepted your friend request!'
             mail_instance.create(subject=subject, message=message, recipient_list=instance.sending_user.email)
         return Response(serializer.data)
+
+    @swagger_auto_schema(auto_schema=None)
+    def put(self, request, *args, **kwargs):
+        pass
