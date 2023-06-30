@@ -44,12 +44,13 @@ export default function Feed() {
     setLoading(true);
     try {
       const res = await api.get(
-        `social/posts/${filterType() ? filterType() : ""}?limit=50`,
+        `social/posts/`,
         {
           headers: { Authorization: "Bearer " + token },
         }
       );
-      dispatch(savePosts(res.data.results));
+
+      dispatch(savePosts(res.data));
       setLoading(false);
     } catch (error) {
       if (error.response) {

@@ -36,7 +36,7 @@ export default function Friends() {
         // increased limit to fetch more users
         headers: { Authorization: "Bearer " + token },
       });
-      dispatch(saveUsers(res.data.results));
+      dispatch(saveUsers(res.data));
       setLoading(false);
     } catch (error) {
       if (error.response) {

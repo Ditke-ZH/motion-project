@@ -27,8 +27,15 @@ SECRET_KEY = 'django-insecure-i)at3sesl#_)(on%i76(=(2^&^wna7owen*=r98e22mk*c$_^l
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://motion3.propulsion-learn.ch', 'http://127.0.0.1']
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://motion3.propulsion-learn.ch',
+    'http://127.0.0.1'
+]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'https://motion3.propulsion-learn.ch',
+    'http://127.0.0.1'
+]
 
 # Application definition
 
@@ -53,10 +60,12 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'rest_framework',
-    'drf_yasg'
+    'drf_yasg',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

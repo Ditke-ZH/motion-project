@@ -42,4 +42,4 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'follows_users', 'is_followed_by_users',
-                  'email', 'user_profile', 'first_name', 'last_name']
+                  'email', 'user_profile', 'first_name', 'last_name', 'id']

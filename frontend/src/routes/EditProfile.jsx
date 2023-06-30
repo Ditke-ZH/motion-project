@@ -231,6 +231,8 @@ export default function EditProfile() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
+  console.log(userDetails?.user_profile)
+
   const handleClick = (e) => {
     e.preventDefault();
     if (
@@ -335,7 +337,7 @@ export default function EditProfile() {
                     <NarrowField>
                       <StyledP>Location</StyledP>
                       <EditProfileStyledInput
-                        placeholder={userDetails?.location}
+                        placeholder={userDetails?.user_profile.location}
                         type="text"
                         value={location || ""}
                         onChange={(e) => setLocation(e.target.value)}
@@ -344,7 +346,7 @@ export default function EditProfile() {
                     <NarrowField>
                       <StyledP>About Me</StyledP>
                       <EditProfileStyledInput
-                        placeholder={userDetails?.about_me}
+                        placeholder={userDetails?.user_profile.about}
                         type="text"
                         value={aboutMe || ""}
                         onChange={(e) => setAboutMe(e.target.value)}
@@ -373,7 +375,7 @@ export default function EditProfile() {
                     <NarrowField>
                       <StyledP>Phone Number</StyledP>
                       <EditProfileStyledInput
-                        placeholder={userDetails?.phone_number}
+                        placeholder={userDetails?.user_profile.phone_no}
                         type="text"
                         value={phoneNumber || ""}
                         onChange={(e) => setPhoneNumber(e.target.value)}
@@ -394,10 +396,10 @@ export default function EditProfile() {
                   <p>Things I Like</p>
                 </ThingsILikeP>
                 <ThingILikeButtonLookingDiv>
-                  {userDetails?.things_user_likes.map((likes) => {
+                  {userDetails?.user_profile.liked_things.map((likes) => {
                     return (
-                      <ThingsILikeEditDiv key={likes}>
-                        <p>{likes}</p>
+                      <ThingsILikeEditDiv key={likes.text}>
+                        <p>{likes.text}</p>
                         <ThingsILikeDeleteButton onClick={handleDelete}>
                           X
                         </ThingsILikeDeleteButton>

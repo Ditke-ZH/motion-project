@@ -32,7 +32,7 @@ export default function Post({ post }) {
   const dispatch = useDispatch();
 
   const {
-    user,
+    creating_user: user,
     images,
     content,
     amount_of_likes,

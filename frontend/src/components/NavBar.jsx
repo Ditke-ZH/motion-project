@@ -46,7 +46,8 @@ export default function NavBar() {
       const res = await api.get(`social/friends/requests/`, {
         headers: { Authorization: "Bearer " + token },
       });
-      const pendingRequests = res.data.results.filter(
+
+      const pendingRequests = res.data.filter(
         (request) => request.status === "P"
       );
       dispatch(loadFriendRequests(pendingRequests));
