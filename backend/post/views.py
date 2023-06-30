@@ -13,6 +13,13 @@ User = get_user_model()
 
 
 class PostListCreateView(ListCreateAPIView):
+    """
+        get:
+        List of posts
+
+        post:
+        create a post
+    """
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -28,11 +35,24 @@ class PostListCreateView(ListCreateAPIView):
 
 
 class PostSearchView(ListAPIView):
+    """
+        get:
+        List of posts with matching query
+    """
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    """
+        get:
+        Get a single post  information based on post id
+
+        delete:
+        Delete a post by its post id
+
+        patch:
+        update the post content
+    """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerIsAdminOrReadOnly]
@@ -45,7 +65,7 @@ class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
 
 class UserPostListView(ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+
 
     def get_queryset(self):
         user_id = self.kwargs['user_id']

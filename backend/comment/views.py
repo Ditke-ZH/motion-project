@@ -11,6 +11,14 @@ from .serializers import CommentSerializer
 
 
 class ListCreateCommentAPIView(ListCreateAPIView):
+    """
+        get:
+        List all comments of a ordered by chronologically
+
+        post:
+        Create a new comment for a post
+    """
+
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_url_kwarg = 'post_id'
