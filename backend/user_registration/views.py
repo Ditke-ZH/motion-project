@@ -3,7 +3,7 @@ import random
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 
@@ -56,11 +56,11 @@ class RegisterView(CreateAPIView):
         return Response(status=status.HTTP_201_CREATED)
 
 
-class RegisterValidationView(UpdateAPIView):
+class RegisterValidationView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegistrationValidationSerializer
 
-    def patch(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         user_instance = get_object_or_404(User, email=request.data['email'])
         code_instance = get_object_or_404(UserRegistration, user=user_instance)
         if request.data['code'] == code_instance.code \
