@@ -231,6 +231,7 @@ export default function EditProfile() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
+
   const handleClick = (e) => {
     e.preventDefault();
     if (
@@ -285,6 +286,8 @@ export default function EditProfile() {
     setThingsILike(thingsILike.splice(likes, 1));
     // handlePatch()
   };
+
+  console.log(userDetails?.user_profile.liked_things)
 
   if (loading) {
     return <Loading />;
@@ -394,10 +397,10 @@ export default function EditProfile() {
                   <p>Things I Like</p>
                 </ThingsILikeP>
                 <ThingILikeButtonLookingDiv>
-                  {userDetails?.things_user_likes.map((likes) => {
+                  {userDetails?.user_profile.liked_things.map((likes) => {
                     return (
-                      <ThingsILikeEditDiv key={likes}>
-                        <p>{likes}</p>
+                      <ThingsILikeEditDiv key={likes.text}>
+                        <p>{likes.text}</p>
                         <ThingsILikeDeleteButton onClick={handleDelete}>
                           X
                         </ThingsILikeDeleteButton>

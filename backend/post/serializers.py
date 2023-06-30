@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from post.models import Post
+from post_image.serializers import PostImageSerializer
 from user.serializers import UserSerializer
 
 
@@ -8,6 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
     logged_in_user_liked = serializers.SerializerMethodField()
     is_from_logged_in_user = serializers.SerializerMethodField()
     amount_of_likes = serializers.SerializerMethodField()
+    images = PostImageSerializer(required=False)
 
     def get_logged_in_user_liked(self, post):
         user = self.context['request'].user
