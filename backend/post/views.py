@@ -4,6 +4,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from email_scheduler.models import EmailScheduler
 from .permissions import IsOwnerIsAdminOrReadOnly
 from django.db.models import Q
 from post.models import Post
@@ -31,6 +32,14 @@ class PostListCreateView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(creating_user=self.request.user)
+
+        followers = User.objects.filter(follows_users=self.request.user)
+        for receiver in followers:
+            # create email to receiver
+            mail_instance = EmailScheduler.objects.all()
+            message = f'Dear {receiver.username}\n\n{self.request.user.username} has just posted something interesting!'
+            subject = f'Motion-3: new post from {self.request.user.username}'
+            mail_instance.create(subject=subject, message=message, recipient_list=receiver.email)
 
 
 class PostSearchView(ListAPIView):
