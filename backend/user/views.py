@@ -6,6 +6,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, RetrieveUpdate
 
 from email_scheduler.models import EmailScheduler
 from liked_thing.models import LikedThing
+from user.permissions import ObjNotLoggedInUser
 from user.serializers import UserSerializer, UserProfileSerializer
 from user_profile.models import UserProfile
 
@@ -91,6 +92,7 @@ class ToggleFollowing(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_url_kwarg = 'id'
+    permission_classes = [ObjNotLoggedInUser]
 
     def post(self, request, *args, **kwargs):
         follows_users = self.get_object()
