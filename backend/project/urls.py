@@ -30,7 +30,7 @@ schema_view = get_schema_view(
         contact=openapi.Contact(email="learning@constructor.org"),
         license=openapi.License(name="BSD License"),
     ),
-    public=True,  # Set to False restrict access to protected endpoints
+    public=False,  # Set to False restrict access to protected endpoints
     permission_classes=[permissions.AllowAny]  # Permissions for docs access
 )
 

@@ -155,6 +155,7 @@ AUTH_USER_MODEL = 'user.User'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -174,9 +175,9 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
 
 SWAGGER_SETTINGS = {
-    'USE_SESSION_AUTH': False,  # Change settings to True to enable Django Login option
-    'LOGIN_URL': 'backend/admin/',  # URL For Django Login
-    'LOGOUT_URL': 'backend/admin/logout/',  # URL For Django Logout
+    'USE_SESSION_AUTH': True,  # Change settings to True to enable Django Login option
+    'LOGIN_URL': '/backend/admin/',  # URL For Django Login
+    'LOGOUT_URL': '/backend/admin/logout/',  # URL For Django Logout
     'SECURITY_DEFINITIONS': {  # Allows usage of Access token to make requests on the docs.
         'Bearer': {
             'type': 'apiKey',

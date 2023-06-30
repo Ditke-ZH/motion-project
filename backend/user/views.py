@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
 
 from email_scheduler.models import EmailScheduler
 from liked_thing.models import LikedThing
@@ -34,6 +35,10 @@ class ViewOneUser(RetrieveAPIView):
 class RetrieveUpdateDestroyLoggedInUser(RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
 
+    @swagger_auto_schema(auto_schema=None)
+    def put(self, request, *args, **kwargs):
+        pass
+
     def get_object(self):
         return self.request.user
 
@@ -56,12 +61,12 @@ class RetrieveUpdateDestroyLoggedInUser(RetrieveUpdateDestroyAPIView):
                 instance.delete()
 
 
-class ToggleFollowing(UpdateAPIView):
+class ToggleFollowing(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_url_kwarg = 'id'
 
-    def patch(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         follows_users = self.get_object()
         is_followed_by_users = self.request.user
         user_following = follows_users in is_followed_by_users.follows_users.all()

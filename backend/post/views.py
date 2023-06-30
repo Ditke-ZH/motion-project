@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
@@ -35,6 +36,10 @@ class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerIsAdminOrReadOnly]
     lookup_url_kwarg = 'post_id'
 
+    @swagger_auto_schema(auto_schema=None)
+    def put(self, request, *args, **kwargs):
+        pass
+
 
 class UserPostListView(ListAPIView):
     serializer_class = PostSerializer
@@ -66,7 +71,7 @@ class FriendsPostListView(ListAPIView):
         return Post.objects.filter(creating_user_id__in=friends_ids).order_by('-created_date')
 
 
-class PostToggleLikeView(UpdateAPIView):
+class PostToggleLikeView(CreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_url_kwarg = 'post_id'
