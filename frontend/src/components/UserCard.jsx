@@ -149,10 +149,10 @@ export default function UserCard({ user }) {
     }
   };
 
-  const handleFriendRequest = async () => {
+  const handleFriendRequest = async (e) => {
     try {
       const res = await api.post(
-        `social/friends/request/${id}/`,
+        `social/friends/request/${e.target.id}/`,
         {},
         {
           headers: { Authorization: "Bearer " + token },
@@ -166,7 +166,7 @@ export default function UserCard({ user }) {
       } else if (error.request) {
         console.log(error.request);
       } else {
-        console.log("Error sending friend request:", error.message);
+        console.log("Error sending friend request:", error.message, error);
       }
     }
   };
@@ -191,7 +191,7 @@ export default function UserCard({ user }) {
           <button onClick={handleFollowToggle}>
             {logged_in_user_is_following ? "FOLLOWING" : "FOLLOW"}
           </button>
-          <button onClick={handleFriendRequest}>
+          <button id={id} onClick={handleFriendRequest}>
             {logged_in_user_sent_fr ? "REQUEST SENT" : "ADD FRIEND"}
           </button>
         </SocialActionsContainer>

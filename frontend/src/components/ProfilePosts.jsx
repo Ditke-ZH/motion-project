@@ -11,13 +11,14 @@ export default function ProfilePosts({ user }) {
   const posts = useSelector((store) => store.feed.posts);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+
   const loadPosts = async () => {
     setLoading(true);
     try {
       const res = await api.get(`social/posts/user/${user.id}/`, {
         headers: { Authorization: "Bearer " + token },
       });
-      dispatch(savePosts(res.data.results));
+      dispatch(savePosts(res.data));
       setLoading(false);
     } catch (error) {
       if (error.response) {

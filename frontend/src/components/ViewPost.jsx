@@ -23,8 +23,8 @@ import heartImage from "../assets/svgs/heart.svg";
 import shareImage from "../assets/svgs/share.svg";
 
 export default function ViewPost({ post, handleLikeClick, liked }) {
-  const { user, images, content, amount_of_likes, created } = post;
-
+  const { creating_user: user, images, content, amount_of_likes, created } = post;
+console.log(post)
   const { first_name, last_name } = user;
 
   return (

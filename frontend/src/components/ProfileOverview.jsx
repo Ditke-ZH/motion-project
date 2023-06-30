@@ -142,8 +142,6 @@ export default function ProfileOverview({ user, publicMode }) {
     amount_of_following,
   } = user;
 
-  console.log(user_profile.about)
-
   const navigate = useNavigate();
 
   const handleEditProfileClick = () => {

@@ -14,7 +14,7 @@ class Post(models.Model):
         related_name='posts',
     )
 
-    title = models.TextField(verbose_name='title')
+    title = models.TextField(verbose_name='title', blank=True)
     content = models.TextField(verbose_name='content')
     created_date = models.DateTimeField(verbose_name='created', auto_now_add=True)
     external_link = models.TextField(verbose_name='external_link', blank=True)

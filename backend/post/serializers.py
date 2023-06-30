@@ -4,7 +4,7 @@ from user.serializers import UserSerializer
 
 
 class PostSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    creating_user = UserSerializer(read_only=True)
     logged_in_user_liked = serializers.SerializerMethodField()
     is_from_logged_in_user = serializers.SerializerMethodField()
     amount_of_likes = serializers.SerializerMethodField()
