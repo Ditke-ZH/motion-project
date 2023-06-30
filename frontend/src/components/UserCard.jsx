@@ -196,11 +196,11 @@ export default function UserCard({ user }) {
           </button>
         </SocialActionsContainer>
         <DescriptionContainer>
-          {user_profile.about === "" ? defaultDescription : user_profile.about}
+          {user_profile?.about === "" ? defaultDescription : user_profile?.about}
         </DescriptionContainer>
         <LabelContainer>
-          {user_profile.liked_things.length > 0
-            ? user_profile.liked_things.map((label) => {
+          {user_profile?.liked_things.length > 0
+            ? user_profile?.liked_things.map((label) => {
                 return <span key={label.text}> {label.text}</span>;
               })
             : ["Swimming", "Food", "Cooking", "Travel", "Reading"].map(

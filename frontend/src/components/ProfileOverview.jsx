@@ -185,7 +185,7 @@ export default function ProfileOverview({ user, publicMode }) {
             <AboutEmailPhoneDiv>
               <AboutDiv>
                 <span>About</span>
-                {user_profile.about}
+                {user_profile?.about}
               </AboutDiv>
               <EmailPhoneDiv>
                 <p>
@@ -194,7 +194,7 @@ export default function ProfileOverview({ user, publicMode }) {
                 </p>
                 <p>
                   <span>Phone Number</span>
-                  {user_profile.phone_no}
+                  {user_profile?.phone_no}
                 </p>
               </EmailPhoneDiv>
             </AboutEmailPhoneDiv>
@@ -202,7 +202,7 @@ export default function ProfileOverview({ user, publicMode }) {
               <span>Things I Like</span>
               <ul>
                 {/* <li>{things_user_likes}</li> */}
-                {user_profile.liked_things.map((likes) => {
+                {user_profile?.liked_things.map((likes) => {
                   return <GrayPill key={likes.text}>{likes.text}</GrayPill>;
                 })}
               </ul>
