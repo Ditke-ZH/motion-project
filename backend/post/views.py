@@ -14,6 +14,13 @@ User = get_user_model()
 
 
 class PostListCreateView(ListCreateAPIView):
+    """
+        get:
+        List all the posts of all users in chronological order
+
+        post:
+        create a post
+    """
     serializer_class = PostSerializer
 
     def get_queryset(self):
@@ -36,10 +43,24 @@ class PostListCreateView(ListCreateAPIView):
 
 
 class PostSearchView(ListAPIView):
+    """
+        get:
+        Search posts of all users and list result in chronological order
+    """
     serializer_class = PostSerializer
 
 
 class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    """
+        get:
+        Get a specific post by ID and display all the information about that post
+
+        delete:
+        Delete a post by ID (allowed for owner of the post or an admin)
+
+        patch:
+        Update a specific post (allowed for owner of the post or an admin)
+    """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerIsAdminOrReadOnly]
@@ -51,6 +72,10 @@ class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
 
 
 class UserPostListView(ListAPIView):
+    """
+        get:
+        List all the posts of a specific user in chronological order
+    """
     serializer_class = PostSerializer
 
     def get_queryset(self):
@@ -59,6 +84,10 @@ class UserPostListView(ListAPIView):
 
 
 class FollowingPostListView(ListAPIView):
+    """
+        get:
+        List all the posts of followed users in chronological order
+    """
     serializer_class = PostSerializer
 
     def get_queryset(self):
@@ -68,6 +97,10 @@ class FollowingPostListView(ListAPIView):
 
 
 class FriendsPostListView(ListAPIView):
+    """
+        get:
+        List all the posts of the logged in user’s friends in chronological order
+    """
     serializer_class = PostSerializer
 
     def get_queryset(self):
@@ -81,6 +114,10 @@ class FriendsPostListView(ListAPIView):
 
 
 class PostToggleLikeView(CreateAPIView):
+    """
+        post:
+        Toggle the like
+    """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_url_kwarg = 'post_id'
@@ -97,6 +134,10 @@ class PostToggleLikeView(CreateAPIView):
 
 
 class UserLikedPostListView(ListAPIView):
+    """
+        get:
+        List all the user who liked the specific post
+    """
     serializer_class = PostSerializer
 
     def get_queryset(self):

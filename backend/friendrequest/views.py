@@ -15,6 +15,12 @@ User = get_user_model()
 
 
 class FriendsListView(ListAPIView):
+    """
+        get:
+        List all the accepted friends of a loggedin user
+
+    """
+
     def get_queryset(self):
         current_user = self.request.user
         result = User.objects.filter(
@@ -27,6 +33,12 @@ class FriendsListView(ListAPIView):
 
 
 class FriendrequestListView(ListAPIView):
+
+    """
+        get:
+        List all the friends requests
+
+    """
     def get_queryset(self):
         current_user = self.request.user
         result = Friendrequest.objects.filter(
@@ -39,6 +51,10 @@ class FriendrequestListView(ListAPIView):
 
 
 class FriendrequestPostView(CreateAPIView):
+    """
+        post:
+        Create a new friend request
+    """
     queryset = Friendrequest.objects.all()
     serializer_class = FriendrequestSerializer
 
@@ -52,6 +68,16 @@ class FriendrequestPostView(CreateAPIView):
 
 
 class FriendrequestGetPatchDeleteView(RetrieveUpdateDestroyAPIView):
+    """
+        get:
+        Get a single friends request information based on request id
+
+        delete:
+        sending user can only delete his sent friend request.
+
+        patch:
+        Received user can only update the status
+    """
     queryset = Friendrequest.objects.all()
     serializer_class = FriendrequestSerializer
     permission_classes = [CanDeleteFriendRequest]

@@ -21,6 +21,11 @@ def code_generator(length=6):
 
 
 class RegisterView(CreateAPIView):
+    """
+        post:
+        Register a user
+
+    """
     queryset = User.objects.all()
     serializer_class = UserRegistrationSerializer
     permission_classes = [AllowAny]
@@ -59,6 +64,11 @@ class RegisterView(CreateAPIView):
 
 
 class RegisterValidationView(CreateAPIView):
+    """
+        post:
+        Validate the user
+
+    """
     queryset = User.objects.all()
     serializer_class = UserRegistrationValidationSerializer
     permission_classes = [AllowAny]
